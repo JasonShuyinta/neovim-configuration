@@ -1,6 +1,6 @@
 require('lualine').setup {
   options = {
-    icons_enables = true,
+    icons_enabled = true,
     theme = 'gruvbox',
   },
   sections = {

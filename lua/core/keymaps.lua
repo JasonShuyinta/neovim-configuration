@@ -1,5 +1,7 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+vim.wo.number = true
+vim.g.terminal_emulator='zsh'
 
 vim.opt.backspace = '2'
 vim.opt.showcmd = true
