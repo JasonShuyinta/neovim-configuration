@@ -15,9 +15,14 @@ return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
   use 'ellisonleao/gruvbox.nvim'
   use 'nvim-tree/nvim-tree.lua'
+  use 'marko-cerovac/material.nvim'
+  use 'shaunsingh/nord.nvim'
   use 'nvim-tree/nvim-web-devicons'
   use 'nvim-lualine/lualine.nvim'
+  use {'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons'}
+  use 'm4xshen/autoclose.nvim'
   use 'nvim-treesitter/nvim-treesitter'
+  use 'rmehri01/onenord.nvim'
   use {
     'nvim-telescope/telescope.nvim',
     tag = '0.1.0',

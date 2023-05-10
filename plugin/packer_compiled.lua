@@ -74,6 +74,16 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  ["autoclose.nvim"] = {
+    loaded = true,
+    path = "/home/shuy/.local/share/nvim/site/pack/packer/start/autoclose.nvim",
+    url = "https://github.com/m4xshen/autoclose.nvim"
+  },
+  ["bufferline.nvim"] = {
+    loaded = true,
+    path = "/home/shuy/.local/share/nvim/site/pack/packer/start/bufferline.nvim",
+    url = "https://github.com/akinsho/bufferline.nvim"
+  },
   ["gruvbox.nvim"] = {
     loaded = true,
     path = "/home/shuy/.local/share/nvim/site/pack/packer/start/gruvbox.nvim",
@@ -89,6 +99,16 @@ _G.packer_plugins = {
     path = "/home/shuy/.local/share/nvim/site/pack/packer/start/lualine.nvim",
     url = "https://github.com/nvim-lualine/lualine.nvim"
   },
+  ["material.nvim"] = {
+    loaded = true,
+    path = "/home/shuy/.local/share/nvim/site/pack/packer/start/material.nvim",
+    url = "https://github.com/marko-cerovac/material.nvim"
+  },
+  ["nord.nvim"] = {
+    loaded = true,
+    path = "/home/shuy/.local/share/nvim/site/pack/packer/start/nord.nvim",
+    url = "https://github.com/shaunsingh/nord.nvim"
+  },
   ["nvim-tree.lua"] = {
     loaded = true,
     path = "/home/shuy/.local/share/nvim/site/pack/packer/start/nvim-tree.lua",
@@ -103,6 +123,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/shuy/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
     url = "https://github.com/nvim-tree/nvim-web-devicons"
+  },
+  ["onenord.nvim"] = {
+    loaded = true,
+    path = "/home/shuy/.local/share/nvim/site/pack/packer/start/onenord.nvim",
+    url = "https://github.com/rmehri01/onenord.nvim"
   },
   ["packer.nvim"] = {
     loaded = true,
