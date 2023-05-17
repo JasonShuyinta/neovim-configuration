@@ -7,4 +7,5 @@ require("core.plugin_config.indent_blankline")
 require("core.plugin_config.onenord")
 require("core.plugin_config.bufferline")
 require("core.plugin_config.autoclose")
-
+require("core.plugin_config.lsp_config")
+require("core.plugin_config.completions")
