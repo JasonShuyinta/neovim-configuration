@@ -38,3 +38,7 @@ FuzzyFinder
 - nvim-telescope/telescope.nvim
 Indentation
 - lukas-reineke/indent-blankline.nvim
+
+
+# ZSH
+The zshell configuration is also present in the zshell folder
