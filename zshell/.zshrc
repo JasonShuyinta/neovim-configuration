@@ -8,12 +8,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-#ZSH_THEME="robbyrussell"
-#ZSH_THEME="afowler"
-#ZSH_THEME="crunch"
-#ZSH_THEME="ys"
-#ZSH_THEME="bira"
-ZSH_THEME="intheloop"
+ZSH_THEME="bira"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -75,12 +70,40 @@ ZSH_THEME="intheloop"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-kubectl-prompt)
 
 source $ZSH/oh-my-zsh.sh
-
+source /home/shuy/zsh-prompt/zsh-kubectl-prompt
+autoload -U colors; colors
 # User configuration
+#RPROMPT='%{$fg[white]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
+function right_prompt() {
+  local c_color="blue"
+  local ns_color="blue"
 
+  if [[ "$ZSH_KUBECTL_CONTEXT" =~ "gke_sas-amoscentral_europe-west6_amoscentral-production-gke" ]]; then
+    c_color="red"
+  elif [[ "$ZSH_KUBECTL_CONTEXT" =~ "prdkube" ]]; then
+    c_color="magenta"
+  elif [[ "$ZSH_KUBECTL_CONTEXT" =~ "gke_sas-amoscentral_europe-west6_amoscentral-infra-test-gke" ]]; then
+    c_color="green"
+  fi
+  if [[ "$ZSH_KUBECTL_NAMESPACE" =~ "amoscentral-production" ]]; then
+    ns_color="red"
+  elif [[ "$ZSH_KUBECTL_NAMESPACE" =~ "amoscentral-acceptance" ]]; then
+    ns_color="green"
+  elif [[ "$ZSH_KUBECTL_NAMESPACE" =~ "amoscentral-qa" ]]; then
+    ns_color="yellow"
+  elif [[ "$ZSH_KUBECTL_NAMESPACE" =~ "amoscentral-perf" ]]; then
+    ns_color="magenta"
+  elif [[ "$ZSH_KUBECTL_NAMESPACE" =~ "b2b" ]]; then
+    ns_color="white"
+  fi
+  
+
+  echo "%{$fg[$c_color]%}($ZSH_KUBECTL_CONTEXT)%{$reset_color%}:%{$fg[$ns_color]%}($ZSH_KUBECTL_NAMESPACE)%{$reset_color%}"
+}
+RPROMPT='$(right_prompt)'
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -101,10 +124,10 @@ source $ZSH/oh-my-zsh.sh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
+# Example aliases#
 # Example aliases
-alias zshconfig="mate ~/.zshrc"
-alias ohmyzsh="mate ~/.oh-my-zsh"
-alias goamoscentral="cd /mnt/d/users/shuy/Desktop/amos/amoscentral/amoscentral"
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
 alias update="sudo yum update"
 alias c="clear"
 alias ll="ls -la"
@@ -113,7 +136,7 @@ alias startdocker="sudo systemctl start docker.service"
 alias stopdocker="sudo systemctl stop docker.service"
 alias restartdocker="sudo systemctl restart docker.service"
 alias statusdocker="sudo systemctl status docker.service"
-alias du="docker compose up -d"
+#alias du="docker compose up -d"
 alias dockerstop="docker compose stop"
 alias ddv="docker compose down --rmi all -v --remove-orphans"
 alias dd="docker compose down --rmi all --remove-orphans"
@@ -127,7 +150,12 @@ alias kdd="kubectl delete deployment"
 alias kds="kubectl delete svc"
 alias kga="kubectl get all"
 alias kl="kubectl logs"
-alias changens="kubectl config set-context --current "
+alias changens="kubectl config set-context --current --namespace="
+alias amos-prod="kubectl config set-context --current --namespace=amoscentral-production"
+alias amos-acc="kubectl config set-context --current --namespace=amoscentral-acceptance"
+alias amos-qa="kubectl config set-context --current --namespace=amoscentral-qa"
+alias amos-perf="kubectl config set-context --current --namespace=amoscentral-perf"
+alias amos-b2b="kubectl config set-context --current --namespace=b2b"
 alias ka="kubectl apply -f" 
 alias ministart="minikube start"
 alias minidash="minikube dashboard"
@@ -142,11 +170,16 @@ alias hu="helm upgrade"
 alias hd="helm delete"
 alias hl="helm list"
 alias ht="helm template"
-alias k9s="docker run --rm -it -v $KUBECONFIG:/root/.kube/config quay.io/derailed/k9s"
-
-#Kubectl completion script
-source <(kubectl completion zsh)
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+alias k9s="docker run --rm -it -v ~/.kube/config:/root/.kube/config quay.io/derailed/k9s"
+alias gke="gcloud container clusters get-credentials gkekube --region europe-west6-a"
+alias get-contexts="kubectl config get-contexts"
+alias devkube="kubectl config use-context shuy@devkube"
+alias prdkube="kubectl config use-context shuy@prdkube"
+alias prodgke="kubectl config use-context gke_sas-amoscentral_europe-west6_amoscentral-production-gke"
+alias testgke="kubectl config use-context gke_sas-amoscentral_europe-west6_amoscentral-infra-test-gke"
+alias showcontainers="kubectl get pods -o jsonpath=\"{.items[*].spec['initContainers', 'containers'][*].image}\" | tr -s '[[:space:]]' '\n' | sort | uniq -c"
+alias t="tree -L 1"
+alias g="grep"
+alias nvim="~/nvim/nvim.appimage"
+alias gs="git status"
+[[ $commands[kubectl] ]] && source <(kubectl completion zsh)
